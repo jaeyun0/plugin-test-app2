@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' gap:; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <!--<link rel="stylesheet" type="text/css" href="css/index.css" />-->
+    <link rel="stylesheet" type="text/css" href="jslib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>Hello World</title>
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="col-xs-12">
+
+    <!--<h1>M3mobile Test Only</h1>-->
+
+    <div id="deviceready" class="blink">
+
+        <p class="event listening"><!--Connecting to Device--></p>
+
+        <p class="event received"><!--Device is Ready--></p>
+
+    </div>
+
+    <div>
+
+        <!--<p id="deviceProperties">Loading device properties...</p>-->
+
+    </div>
+
+    <button type="button" id="startBtn" class="btn btn-warning btn-block">Scan</button>
+
+        <button type="button" id="enableBtn" class="btn btn-warning btn-block">Enable</button>
+
+        <button type="button" id="disableBtn" class="btn btn-warning btn-block">Disable</button>
+
+    <!--<button type="button" id="disposeBtn">scanDispose</button>-->
+
+    <!--<p>
+
+            <label for="">Scan Test</label>
+
+            <input type="text" id="scan_out"/>
+
+    </p>-->
+
+        <!--<input type="text" rows="2" id="scan_out" class="form-control" disabled/>-->
+        <textarea class="form-control" rows="2" id="scan_out" disabled></textarea>
+
+        <div class="col-xs-12 bg-success">
+
+        <div class="row">
+            <div class="form-group col-xs-4">
+                <label>Prefix</label>
+                <input type="text" id="prefix_txt" class="form-control"/>
+            </div>
+            <div class="form-group col-xs-4">
+                <label>Suffix</label>
+                <input type="text" id="suffix_txt" class="form-control"/>
+            </div>
+        </div>
+
+        <!--<div class="row">
+            <div class="form-group col-xs-6">
+                <label>Substring Formation</label>
+            </div>
+        </div>-->
+
+        <div class="row">
+            <div class="form-group col-xs-4">
+                <label>Begin Index</label>
+                <input type="text" id="begin_txt" class="form-control" />
+            </div>
+            <div class="form-group col-xs-4">
+                <label>End Index</label>
+                <input type="text"  id="end_txt" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row">
+                <div class="form-group col-xs-4">
+                    <label></label>
+                    <div class="form-control-static">Code128</div>
+                </div>
+                <div class="form-group col-xs-4">
+                    <label>length1</label>
+                    <input type="text" id="code128_length1_txt" class="form-control" />
+                </div>
+                <div class="form-group col-xs-4">
+                    <label>length2</label>
+                    <input type="text" id="code128_length2_txt" class="form-control" />
+                </div>
+                <div class="form-group col-xs-4">
+                    <div class="form-control-static">Code39</div>
+                </div>
+                <div class="form-group col-xs-4">
+                    <input type="text" id="code39_length1_txt" class="form-control" />
+                </div>
+                <div class="form-group col-xs-4">
+                    <input type="text" id="code39_length2_txt" class="form-control" />
+                </div>
+                <div class="form-group col-xs-4">
+                    <div class="form-control-static">I2o5</div>
+                </div>
+                <div class="form-group col-xs-4">
+                    <input type="text" id="i2o5_length1_txt" class="form-control" />
+                </div>
+                <div class="form-group col-xs-4">
+                    <input type="text" id="i2o5_length2_txt" class="form-control" />
+                </div>
+        </div>
+
+            <div class="row">
+            <div class="form-group col-xs-6">
+                <label>Output Mode</label>
+                <div class="checkbox">
+                    <label>
+                        <input type="radio" name="output_mode" id="output_none" value="output_none"/>
+                        None
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="radio" name="output_mode" id="copy_paste" value="copy_paste"/>
+                        Copy Paste
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="radio" name="output_mode" id="key" value="key"/>
+                        Key
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group col-xs-6">
+                <label>End character</label>
+                <div class="checkbox">
+                    <label>
+                        <input type="radio" name="end_character" id="none" value="none"/>
+                        None
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="radio" name="end_character" id="enter" value="enter"/>
+                        Enter
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="radio" name="end_character" id="space" value="space"/>
+                        Space
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="radio" name="end_character" id="tab" value="tab"/>
+                        Tab
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="radio" name="end_character" id="key_enter" value="key_enter"/>
+                        Key enter
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="radio" name="end_character" id="key_space" value="key_space"/>
+                        Key space
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="radio" name="end_character" id="key_tab" value="key_tab"/>
+                        Key tab
+                    </label>
+                </div>
+            </div>
+
+            </div>
+        </div>
+
+    <button type="button" id="okBtn" class="btn btn-success btn-block">Save</button>
+
+    </div>
+
+</div>
+
+<!--<div style="position:absolute; right:0; bottom:0;">
+    M3Mobile Test Only
+</div>-->
+
+<div style="text-align:right">
+    M3Mobile Test Only
+</div>
+
+<script type="text/javascript" src="cordova.js"></script>
+
+<script type="text/javascript" src="js/index.js"></script>
+
+<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+
+<script type="text/javascript">
+
+    scan = function(str, callback) {
+
+        cordova.exec(callback, function(err) {
+
+            callback('Nothing to echo.');
+
+        }, "Scan", str, [str]);
+
+    };
+
+    function setMessage(strMessage) {
+        $('#scan_out').text(strMessage);
+    }
+
+    $("#startBtn").unbind("click").mouseup(function(){
+
+         scan("scanStart", function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+            $('#scan_out').val(echoValue);
+            //$('#scan_out').text(echoValue);
+
+         });
+
+    });
+
+    $("#disposeBtn").unbind("click").click(function(){
+
+         scan("scanDispose", function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+
+         });
+
+    });
+
+    setScanner = function(str, bEnable, callback) {
+
+        cordova.exec(callback, function(err) {
+
+            callback('Nothing to echo.');
+
+        }, "Scan", str, [bEnable]);
+
+    };
+
+    $("#enableBtn").unbind("click").click(function(){
+
+         setScanner("setScanner", true, function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+
+         });
+
+    });
+
+    $("#disableBtn").unbind("click").click(function(){
+
+         setScanner("setScanner", false, function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+
+         });
+
+    });
+
+    //prefix
+
+    prefix = function(str, strPrefix, strSuffix, callback) {
+
+        cordova.exec(callback, function(err) {
+
+            callback('Nothing to echo.');
+
+        }, "Scan", str, [strPrefix, strSuffix]);
+
+    };
+
+    //end_character
+
+    end_character = function(str, strEndCharacter, callback) {
+
+        cordova.exec(callback, function(err) {
+
+            callback('Nothing to echo.');
+
+        }, "Scan", str, [strEndCharacter]);
+
+    };
+
+    //sub_string
+
+    sub_string = function(str, strBeginIndex, strEndIndex, callback) {
+
+        cordova.exec(callback, function(err) {
+
+            callback('Nothing to echo.');
+
+        }, "Scan", str, [strBeginIndex, strEndIndex]);
+
+    };
+
+    //code_length
+
+    code_length = function(str, strLength1, strLength2, callback) {
+
+        cordova.exec(callback, function(err) {
+
+            callback('Nothing to echo.');
+
+        }, "Scan", str, [strLength1, strLength2]);
+
+    };
+
+    //output_mode
+
+    output_mode = function(str, strOutPutMode, callback) {
+
+        cordova.exec(callback, function(err) {
+
+            callback('Nothing to echo.');
+
+        }, "Scan", str, [strOutPutMode]);
+
+    };
+
+    //show_toast
+
+    show_toast = function(str, strMessage, callback) {
+
+        cordova.exec(callback, function(err) {
+
+            callback('Nothing to echo.');
+
+        }, "Scan", str, [strMessage]);
+
+    };
+
+    $("#okBtn").unbind("click").click(function(){
+
+         prefix("setPrefix", $("#prefix_txt").val(), $("#suffix_txt").val(), function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+
+         });
+
+         end_character("setEndCharacter", $("input[name=end_character]:checked").val(), function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+
+         });
+
+         sub_string("setSubString", $("#begin_txt").val(), $("#end_txt").val(), function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+
+         });
+
+         code_length("setCode128Length", $("#code128_length1_txt").val(), $("#code128_length2_txt").val(), function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+
+         });
+
+         code_length("setCode39Length", $("#code39_length1_txt").val(), $("#code39_length2_txt").val(), function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+
+         });
+
+         code_length("setI2o5Length", $("#i2o5_length1_txt").val(), $("#i2o5_length2_txt").val(), function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+
+         });
+
+         output_mode("setOutPutMode", $("input[name=output_mode]:checked").val(), function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+
+         });
+
+         show_toast("showToast", "Save Success", function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+
+         });
+
+    });
+
+    $('#scan_out').keypress(function(event){
+
+    if (event.keyCode == 10 || event.keyCode == 13)
+        console.log("keyEnter!!!!!" + event.keyCode);
+
+    });
+
+
+
+</script>
+
+<script type="text/javascript">
+
+    app.initialize();
+
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    get_setting = function(str, callback) {
+
+        cordova.exec(callback, function(err) {
+
+            callback('');
+
+        }, "Scan", str, [str]);
+
+    };
+    function sleep(num){
+
+			 var now = new Date();
+
+			   var stop = now.getTime() + num;
+
+			   while(true){
+
+				 now = new Date();
+
+				 if(now.getTime() > stop)return;
+
+			   }
+
+    }
+
+    function onDeviceReady() {
+
+        /*var element = document.getElementById('deviceProperties');
+
+        console.log("> platform : " + device.platform );
+
+        element.innerHTML = 'Device Name: '     + device.name     + '<br />' +
+
+                            'Device Cordova: '  + device.cordova + '<br />' +
+
+                            'Device Platform: ' + device.platform + '<br />' +
+
+                            'Device UUID: '     + device.uuid     + '<br />' +
+
+                            'Device Model: '    + device.model     + '<br />' +
+
+                            'Device Version: '  + device.version  + '<br />';*/
+
+        get_setting("getPrefix", function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+            $('#prefix_txt').val(echoValue);
+
+         });
+
+         get_setting("getSuffix", function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+            $('#suffix_txt').val(echoValue);
+
+         });
+
+         get_setting("getBeginIndex", function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+            $('#begin_txt').val(echoValue);
+
+         });
+
+         get_setting("getEndIndex", function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+            $('#end_txt').val(echoValue);
+
+         });
+
+         get_setting("getEndChar", function(echoValue) {
+            console.log(JSON.stringify(echoValue));
+            if(echoValue == 0) {
+                $("input:radio[name='end_character']:radio[value='enter']").prop("checked", true);
+            } else if(echoValue == 1) {
+                $("input:radio[name='end_character']:radio[value='space']").prop("checked", true);
+            } else if(echoValue == 2) {
+                $("input:radio[name='end_character']:radio[value='tab']").prop("checked", true);
+            } else if(echoValue == 3) {
+                $("input:radio[name='end_character']:radio[value='key_enter']").prop("checked", true);
+            } else if(echoValue == 4) {
+                $("input:radio[name='end_character']:radio[value='key_space']").prop("checked", true);
+            } else if(echoValue == 5) {
+                $("input:radio[name='end_character']:radio[value='key_tab']").prop("checked", true);
+            } else if(echoValue == 6) {
+                $("input:radio[name='end_character']:radio[value='none']").prop("checked", true);
+            }
+         });
+
+         get_setting("getCode128Length1", function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+            $('#code128_length1_txt').val(echoValue);
+
+         });
+
+         get_setting("getCode128Length2", function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+            $('#code128_length2_txt').val(echoValue);
+
+         });
+
+         get_setting("getCode39Length1", function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+            $('#code39_length1_txt').val(echoValue);
+
+         });
+
+         get_setting("getCode39Length2", function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+            $('#code39_length2_txt').val(echoValue);
+
+         });
+
+         get_setting("getI2o5Length1", function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+            $('#i2o5_length1_txt').val(echoValue);
+
+         });
+
+         get_setting("getI2o5Length2", function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+            $('#i2o5_length2_txt').val(echoValue);
+
+         });
+
+         get_setting("getOutPutMode", function(echoValue) {
+            console.log(JSON.stringify(echoValue));
+            if(echoValue == 0) {
+                $("input:radio[name='output_mode']:radio[value='copy_paste']").prop("checked", true);
+            } else if(echoValue == 1) {
+                $("input:radio[name='output_mode']:radio[value='key']").prop("checked", true);
+            } else if(echoValue == 2) {
+                $("input:radio[name='output_mode']:radio[value='output_none']").prop("checked", true);
+            }
+         });
+    }
+
+</script>
+
+</body>
+
+</html>

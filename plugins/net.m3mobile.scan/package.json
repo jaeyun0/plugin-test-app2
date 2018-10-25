@@ -1,0 +1,17 @@
+{
+  "name": "net.m3mobile.scan",
+  "version": "0.0.1",
+  "cordova": {
+    "id": "net.m3mobile.scan",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

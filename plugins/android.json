@@ -1,0 +1,21 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.test.plugin2"
+        },
+        "net.m3mobile.scan": {
+            "PACKAGE_NAME": "com.test.plugin2"
+        },
+        "com.icsfl.rfsmart.httpviausb": {
+            "PACKAGE_NAME": "com.test.plugin2"
+        }
+    },
+    "dependent_plugins": {}
+}

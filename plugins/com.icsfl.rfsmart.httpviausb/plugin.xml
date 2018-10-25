@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="com.icsfl.rfsmart.httpviausb" 
+        version="0.1.0">
+    <name>HttpViaUSB</name>
+    <description>Http Via USB Plugin</description>
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
+    <js-module src="www/httpviausb.js" name="CordovaHttpViaUSBPlugin">
+        <clobbers target="plugins.CordovaHttpViaUSBPlugin" />
+    </js-module>
+
+    <!--android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="CordovaHttpViaUSBPlugin">
+                <param name="android-package" value="com.icsfl.rfsmart.httpviausb.CordovaHttpViaUSBPlugin"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/CordovaHttpViaUSBPlugin.java" target-dir="src/com/icsfl/rfsmart/httpviausb" />
+    </platform>
+</plugin>

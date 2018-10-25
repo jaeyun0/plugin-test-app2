@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <link rel="stylesheet" type="text/css" href="jslib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+  <div>
+    <div class="col-xs-12 text-center">
+      <br/><br/>
+      <!--<a href="index1.html" class="btn btn-default btn-block">1</a>-->
+      <a href="scanner.html" class="btn btn-default btn-block">Scanner</a>
+      <!--<a href="index3.html" class="btn btn-default btn-block">3</a>-->
+      <!--<a href="camera.html" class="btn btn-default btn-block">Camera</a>-->
+      <!--<button type="button" id="startBtn" class="btn btn-warning btn-block">Scan</button>-->
+      <!--<textarea class="form-control" rows="2" id="scan_out" disabled></textarea>-->
+
+    </div>
+
+    <div style="position:absolute; right:0; bottom:0;">
+      M3Mobile Test Only
+    </div>
+  </div>
+
+  <script src="jslib/jquery/dist/jquery.min.js"></script>
+  <script src="jslib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript" src="cordova.js"></script>
+  <!--<script type="text/javascript">
+    scan = function(str, callback) {
+
+        cordova.exec(callback, function(err) {
+
+            callback('Nothing to echo.');
+
+        }, "CordovaHttpViaUSBPlugin", str, [str]);
+
+    };
+
+    function setMessage(strMessage) {
+        $('#scan_out').text(strMessage);
+    }
+
+    $("#startBtn").unbind("click").mouseup(function(){
+
+         scan("scanStart", function(echoValue) {
+
+            console.log(JSON.stringify(echoValue));
+            $('#scan_out').val(echoValue);
+            //$('#scan_out').text(echoValue);
+
+         });
+
+    });
+  </script>-->
+</body>
+</html>

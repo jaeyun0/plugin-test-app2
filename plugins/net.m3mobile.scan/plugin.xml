@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="net.m3mobile.scan" version="0.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>m3scan</name>
+    <js-module name="m3scan" src="www/m3scan.js">
+        <clobbers target="cordova.plugins.m3scan" />
+    </js-module>
+
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="Scan">
+                <param name="android-package" value="net.m3mobile.scan.m3scan" />
+            </feature>
+        </config-file>
+        <config-file parent="/manifest" target="AndroidManifest.xml"></config-file>
+        <!--<source-file src="lib/M3SDK.jar" target-dir="app/libs" />-->
+        <source-file src="lib/M3SDK.jar" target-dir="libs" />
+        <source-file src="src/android/m3scan.java" target-dir="src/net/m3mobile/scan" />
+    </platform>
+</plugin>
